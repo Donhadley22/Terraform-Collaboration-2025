@@ -1,15 +1,6 @@
-variable "vpc_cidr_block" {
-    type = string
-    description = "CIDR block for the VPC"
-}
-
-variable "VPC_Name" {
-  type = string
-  description = "Name of the VPC"
-}
-
-variable "gp_gw" {
-  type = string
-  description = "Internet gateway"
-}
-
+variable "cidr_block" {}
+variable "web_pub_sub_count" {}
+variable "private_sub_count" {}
+variable "availability_zone" {}
+variable "azs" {}
+variable "db_subnet_group" {}
