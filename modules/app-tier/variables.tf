@@ -1,0 +1,12 @@
+variable "image_id" {}
+variable "instance_type" {}
+variable "key_name" {}
+variable "gp_app_private_subnets" {}
+variable "email" {}
+variable "gp_app_lb_sg" {}
+variable "lbtg_port" {}
+variable "lbtg_protocol" {}
+variable "gp_vpc_id" {}
+variable "gp_app_sg" {}
+variable "listener_port" {}
+variable "listener_protocol" {}

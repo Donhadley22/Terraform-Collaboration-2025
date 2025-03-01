@@ -3,7 +3,7 @@ resource "aws_launch_template" "gp_web_lt" {
   name_prefix   = "Web-lt"
   image_id      = var.image_id
   instance_type = var.instance_type
-  vpc_security_group_ids = [var.web_sg]
+  vpc_security_group_ids = [var.gp_web_sg]
   key_name = var.key_name
   description = "Launch template for webserver"
   user_data = filebase64("userdata-web.sh")
@@ -15,14 +15,14 @@ resource "aws_launch_template" "gp_web_lt" {
 
 resource "aws_autoscaling_group" "gp_web_asg" {
   name = "Web-autoscaling-group"
-  vpc_zone_identifier = var.web_public_subnets
+  vpc_zone_identifier = var.gp_web_public_subnets
   desired_capacity   = 2
   max_size           = 2
   min_size           = 2
   health_check_grace_period = 200
   health_check_type = "ELB"
 
-target_group_arns =[aws_lb_target_group.web_lbtg.arn]
+target_group_arns =[aws_lb_target_group.gp_web_lbtg.arn]
 
   launch_template {
     id      = aws_launch_template.gp_web_lt.id
@@ -69,12 +69,12 @@ resource "aws_sns_topic_subscription" "web_email_sub" {
 
 
 # Creating Web-tier load balancer
- resource "aws_lb" "web_lb" {
+ resource "aws_lb" "gp_web_lb" {
     name       = "web-laodbalancing"
     internal           = false
     load_balancer_type = "application"
-    security_groups    = [var.web_lb_sg]
-    subnets            = var.web_public_subnets
+    security_groups    = [var.gp_web_lb_sg]
+    subnets            = var.gp_web_public_subnets
 
   enable_deletion_protection = false
 
@@ -94,7 +94,7 @@ resource "aws_lb_target_group" "gp_web_lbtg" {
   target_type = "instance"
   port        = var.lbtg_port
   protocol    = var.lbtg_protocol
-  vpc_id      = var.vpc_id
+  vpc_id      = var.gp_vpc_id
 
 health_check {
   path = "/"
