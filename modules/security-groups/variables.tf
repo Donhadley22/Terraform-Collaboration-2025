@@ -1,2 +1,2 @@
-variable "vpc_id" {}
+variable "gp_vpc_id" {}
 variable "ip" {}

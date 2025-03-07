@@ -24,7 +24,7 @@ resource "aws_autoscaling_group" "gp_app_asg" {
   health_check_grace_period = 200
   health_check_type = "ELB"
 
-target_group_arns =[aws_lb_target_group.app_lbtg.arn]
+target_group_arns =[aws_lb_target_group.gp_app_lbtg.arn]
 
   launch_template {
     id      = aws_launch_template.gp_app_lt.id
@@ -76,7 +76,7 @@ resource "aws_lb" "gp_app_lb" {
   enable_deletion_protection = false
 
 depends_on = [ 
-  aws_autoscaling_group.ap_app_asg
+  aws_autoscaling_group.gp_app_asg,
  ]
 
 

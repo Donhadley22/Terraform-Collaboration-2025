@@ -1,6 +1,6 @@
 # Web LoadBalancer Security Group
 resource "aws_security_group" "gp_web_lb_sg" {
-    vpc_id = var.vpc_id
+    vpc_id = var.gp_vpc_id
     description = "Allow traffic from the internet"
 
     ingress {
@@ -22,8 +22,8 @@ resource "aws_security_group" "gp_web_lb_sg" {
 }
 
 # Web Instance Security Group
-resource "aws_security_group" "gb_web_sg" {
-    vpc_id = var.vpc_id
+resource "aws_security_group" "gp_web_sg" {
+    vpc_id = var.gp_vpc_id
     description = "Allow traffic from web loadbalancer and ssh"
 
     ingress {
@@ -54,7 +54,7 @@ resource "aws_security_group" "gb_web_sg" {
 
 # App LoadBalancer Security Group
 resource "aws_security_group" "gp_app_lb_sg" {
-    vpc_id = var.vpc_id
+    vpc_id = var.gp_vpc_id
     description = "Allow traffic from web sg"
 
     ingress {
@@ -77,7 +77,7 @@ resource "aws_security_group" "gp_app_lb_sg" {
 }
 # App Instance Security Group
 resource "aws_security_group" "gp_app_sg" {
-    vpc_id = var.vpc_id
+    vpc_id = var.gp_vpc_id
     description = "Allow traffic from app loadbalancer and ssh from web instance"
 
     ingress {
@@ -106,7 +106,7 @@ resource "aws_security_group" "gp_app_sg" {
 }
 # Database Security Group
  resource "aws_security_group" "gp_db_sg" {
-   vpc_id = var.vpc_id
+   vpc_id = var.gp_vpc_id
    description = "Allow traffic from app instance"
 
     ingress {
