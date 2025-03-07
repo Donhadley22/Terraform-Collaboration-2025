@@ -3,46 +3,36 @@ resource "aws_key_pair" "gp_tf_keypair" {
   public_key = file(var.my_public_key)
 }
 
-data "aws_ami" "latest_ami" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = [var.image_name]
-  }
-}
-
 
 
 module "web-tier" {
   source               = "./modules/web-tier"
-  image_id             = data.aws_ami.latest_ami.id
+  image_id             = var.ami_image
   instance_type        = "t2.micro"
   key_name             = "tf-keypair"
   gp_web_public_subnets = module.vpc.gp_web_public_subnets
-  email                = "<your-email>"
-  gp_web_lb_sg         = module.security-groups.gp_web_lb_sg.id
+  email                = "donhadleygirlandchika@gmail.com"
+  gp_web_lb_sg         = module.security-groups.gp_web_lb_sg
   lbtg_port            = 80
   lbtg_protocol        = "HTTP"
   gp_vpc_id            = module.vpc.gp_vpc_id
-  gp_web_sg            = module.security-groups.gp_web_sg.id
+  gp_web_sg            = module.security-groups.gp_web_sg
   listener_port        = 80
   listener_protocol    = "HTTP"
 }
 
 module "app-tier" {
   source                 = "./modules/app-tier"
-  image_id               = data.aws_ami.latest_ami.id
+  image_id               = var.ami_image
   instance_type          = "t2.micro"
   key_name               = "tf-keypair"
   gp_app_private_subnets = module.vpc.gp_app_private_subnets
-  email                  = "<your-email>"
-  gp_app_lb_sg           = module.security-groups.gp_app_lb_sg.id
+  email                  = "donhadleygirlandchika@gmail.com"
+  gp_app_lb_sg           = module.security-groups.gp_app_lb_sg
   lbtg_port              = 80
   lbtg_protocol          = "HTTP"
   gp_vpc_id              = module.vpc.gp_vpc_id
-  gp_app_sg              = module.security-groups.gp_app_sg.id
+  gp_app_sg              = module.security-groups.gp_app_sg
   listener_port          = 80
   listener_protocol      = "HTTP"
 }
@@ -57,8 +47,8 @@ module "db-tier" {
   db_username          = var.db_username
   db_identifier        = "db-tier"
   db_storage           = 10
-  gp_db_sg                = module.security-groups.gp_db_sg.id
-  gp_db_subnet_group_name = module.vpc.gp_db_subnet_group_name[0]
+  gp_db_sg                = module.security-groups.gp_db_sg
+  gp_db_subnet_group_name = module.vpc.gp_db_subnet_group_name
   multi_az             = true
   skip_final_snapshot  = true
 }
