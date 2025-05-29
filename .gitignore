@@ -1,6 +1,5 @@
 *.tfvars
 **.tfvars.*
-provider.tf 
 *.tfstate
 *.tfstate.*
 *.lock.*
